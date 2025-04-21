@@ -20,29 +20,17 @@ imc = None
 if dob:
     hoy = datetime.today()
     edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
-    st.markdown(f"**Edad:** {edad} años")
 
 if altura_str and peso_str:
     try:
         altura_m = float(altura_str) / 100
         peso = float(peso_str)
         imc = round(peso / (altura_m ** 2), 1)
-        st.markdown(f"**IMC:** {imc}")
+        st.markdown(f"**Edad:** {edad} años | **IMC:** {imc}")
         if imc >= 25:
             st.markdown(f"**Nota:** IMC elevado ({imc}): factor de riesgo adicional (no afecta la recomendación actual). El IMC saludable recomendado está entre 18.5 y 24.9.")
     except:
         st.error("Por favor, ingresa valores válidos para talla y peso.")
-st.header("1. Datos personales")
-dob = st.date_input("Fecha de nacimiento", min_value=datetime(1900, 1, 1), max_value=datetime.today())
-sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
-
-# Calcular edad
-if dob:
-    hoy = datetime.today()
-    edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
-    st.markdown(f"**Edad:** {edad} años")
-else:
-    edad = None
 
 # Sección: Tabaquismo
 st.header("2. Historial de consumo de tabaco")
@@ -62,6 +50,9 @@ ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asb
 familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?")
 copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?")
 cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?")
+
+# Sección: Síntomas
+sintomas = st.checkbox("¿Tenés sangrado por recto, cambios en el ritmo intestinal o pérdida de peso sin explicación?")
 
 # Evaluación de elegibilidad para LDCT
 st.header("Resultado de la evaluación")
@@ -89,10 +80,13 @@ if not eligible:
         if cancer_previo:
             st.markdown("- Antecedente de otro tipo de cáncer")
         st.markdown("**🔎 Nota para profesionales de salud:** Los siguientes factores fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")
-st.info("Actualmente no existen guías validadas para tamizaje con estos factores. Te recomendamos consultar con tu médico para una evaluación más detallada.")
+        st.info("Actualmente no existen guías validadas para tamizaje con estos factores. Te recomendamos consultar con tu médico para una evaluación más detallada.")
     else:
         st.markdown("No se identificaron factores adicionales de riesgo.")
 
 # Aviso final
-st.markdown("---")
-st.markdown("**Aviso:** Esta herramienta es educativa y no reemplaza la consulta médica. Las recomendaciones están basadas en el consenso latinoamericano 2024 para tamizaje de cáncer de pulmón. Consulta a tu médico o centro de salud para una evaluación personalizada.")
+disclaimer = """
+---
+**Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
+"""
+st.markdown(disclaimer)
