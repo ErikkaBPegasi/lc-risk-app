@@ -63,27 +63,37 @@ st.header("Resultado de la evaluación")
 eligible = False
 if edad and 50 <= edad <= 74:
     if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 30:
+        mensaje_adicional = ""
         if fuma_actualmente == "Sí" or anios_cessacion <= 15:
             eligible = True
             st.success("**Cumples con los criterios para tamizaje con Tomografía de Baja Dosis (LDCT)**")
+            if 20 <= pack_years < 30:
+                st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, puedes ser elegible para tamizaje según recomendaciones ampliadas de las guías RESPIRAR LATAM. Deberías considerar hablar con tu médico sobre si el tamizaje con tomografía podría seguir siendo una buena opción para ti.")
             st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año, de acuerdo al consenso latinoamericano.")
 
 # Si no es elegible pero tiene factores
 if not eligible:
+    if 50 <= edad <= 74 and (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and 20 <= pack_years < 30:
+        st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, puedes ser elegible para tamizaje según recomendaciones ampliadas de las guías RESPIRAR LATAM. Deberías considerar hablar con tu médico sobre si el tamizaje con tomografía podría seguir siendo una buena opción para ti.")
     st.warning("**No cumples con los criterios tradicionales de tamizaje. Consulta con tu médico.**")
     if biomasa or ocupacional or familiar or copd or cancer_previo:
         st.markdown("### ⚠️ Se detectaron factores de riesgo adicionales:")
         if biomasa:
             st.markdown("- Exposición a biomasa (leña, carbón, etc.)")
+            st.info("Has reportado exposición frecuente a biomasa (como leña o carbón). Aunque no existen guías validadas para este riesgo, estudios indican una posible relación con enfermedades pulmonares. Consulta con tu médico para evaluar si se justifica tamizaje individualizado.")
         if ocupacional:
             st.markdown("- Exposición ocupacional a sustancias cancerígenas")
+            st.info("Tu historial laboral incluye exposición a agentes cancerígenos conocidos. En estos casos, podría ser útil discutir con tu médico la posibilidad de estudios por imágenes aunque no se cumplan todos los criterios clásicos.")
         if familiar:
             st.markdown("- Antecedente familiar de cáncer de pulmón")
+            st.info("Tener familiares con cáncer de pulmón puede aumentar tu riesgo. Aunque este factor no es parte de los criterios estándar de tamizaje, se recomienda discutirlo con tu médico.")
         if copd:
             st.markdown("- Enfermedad pulmonar crónica (EPOC, enfisema, etc.)")
+            st.info("La EPOC y otras enfermedades pulmonares crónicas se asocian con mayor riesgo de cáncer de pulmón. Consulta con tu médico si puede ser apropiado realizar un control más frecuente.")
         if cancer_previo:
             st.markdown("- Antecedente de otro tipo de cáncer")
-        st.markdown("**🔎 Nota para profesionales de salud:** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")
+            st.info("Antecedentes personales de cáncer pueden ser relevantes al evaluar tu riesgo global. Considera hablar con tu médico para una evaluación individualizada.")
+        st.markdown("**🔎 Nota para profesionales de salud:** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")
         st.info("Actualmente no existen guías validadas para tamizaje con estos factores. Te recomendamos consultar con tu médico para una evaluación más detallada.")
     else:
         st.markdown("No se identificaron factores adicionales de riesgo.")
