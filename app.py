@@ -7,12 +7,12 @@ st.markdown("Esta herramienta está basada en criterios del consenso latinoameri
 
 # Sección: Datos personales
 st.header("1. Datos personales")
-dob = st.date_input("Fecha de nacimiento", value=None, min_value=datetime(1900, 1, 1), max_value=datetime.today())
-sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
+dob = st.date_input("Fecha de nacimiento", value=None, min_value=datetime(1900, 1, 1), max_value=datetime.today(), help="Selecciona tu fecha de nacimiento para calcular la edad actual.")
+sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"], help="Esta información es solo para fines estadísticos.")
 
 # Peso y talla
-altura_str = st.text_input("¿Cuál es tu talla (cm)?", placeholder="Ejemplo: 165")
-peso_str = st.text_input("¿Cuál es tu peso actual (kg)?", placeholder="Ejemplo: 70")
+altura_str = st.text_input("¿Cuál es tu talla (cm)?", placeholder="Ejemplo: 165", help="Ingresa tu altura en centímetros para calcular tu IMC.")
+peso_str = st.text_input("¿Cuál es tu peso actual (kg)?", placeholder="Ejemplo: 70", help="Ingresa tu peso en kilogramos para calcular tu IMC.")
 
 # Calcular edad
 edad = None
@@ -36,25 +36,27 @@ if altura_str and peso_str:
 
 # Sección: Tabaquismo
 st.header("2. Historial de consumo de tabaco")
-fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"])
-fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"])
+fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"], help="Se refiere a si actualmente consumes cigarrillos u otros productos de tabaco.")
+fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], help="Esto ayuda a calcular tu exposición acumulada al tabaco.")
 
-pack_years = st.number_input("¿Cuántos paquetes por año has consumido? (1 paquete = 20 cigarrillos/día por 1 año)", min_value=0, value=0)
+pack_years = 0
+if fuma_actualmente == "Sí" or fumador_anterior == "Sí":
+    pack_years = st.number_input("¿Cuántos paquetes por año has consumido? (1 paquete = 20 cigarrillos/día por 1 año)", min_value=0, value=0, help="Un paquete/año equivale a fumar un paquete al día durante un año.")
 
 anios_cessacion = 0
 if fuma_actualmente == "No" and fumador_anterior == "Sí":
-    anios_cessacion = st.number_input("¿Cuántos años hace que dejaste de fumar?", min_value=0, value=0)
+    anios_cessacion = st.number_input("¿Cuántos años hace que dejaste de fumar?", min_value=0, value=0, help="Esta información es necesaria para determinar si calificás para tamizaje según el tiempo desde que dejaste de fumar.")
 
 # Sección: Exposición y comorbilidades
 st.header("3. Exposición y condiciones clínicas")
-biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?")
-ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?")
-familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?")
-copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?")
-cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?")
+biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="Incluye exposición constante en ambientes interiores, como cocinar con leña sin ventilación adecuada.")
+ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Esto puede incluir trabajos en minería, construcción o industrias químicas.")
+familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Aplica para padres, hermanos o hijos diagnosticados con cáncer de pulmón.")
+copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Enfermedades respiratorias crónicas pueden aumentar tu riesgo de desarrollar cáncer de pulmón.")
+cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Ciertos cánceres previos pueden estar asociados con un mayor riesgo de cáncer de pulmón.")
 
 # Sección: Síntomas
-sintomas = st.checkbox("¿Tenés sangrado por recto, cambios en el ritmo intestinal o pérdida de peso sin explicación?")
+sintomas = st.checkbox("¿Tenés sangrado por recto, cambios en el ritmo intestinal o pérdida de peso sin explicación?", help="Este síntoma no forma parte del tamizaje pulmonar, pero puede indicar otros problemas de salud relevantes.")
 
 # Evaluación de elegibilidad para LDCT
 st.header("Resultado de la evaluación")
@@ -69,9 +71,6 @@ if edad and 50 <= edad <= 74:
 # Si no es elegible pero tiene factores
 if not eligible:
     st.warning("**No cumples con los criterios tradicionales de tamizaje. Consulta con tu médico.**")
-    if edad and edad < 50 and pack_years >= 30:
-        st.info("Tienes un historial de tabaquismo significativo, pero no cumples con el criterio de edad. Consulta con tu médico, especialmente si presentas síntomas o factores adicionales de riesgo.")
-
     if biomasa or ocupacional or familiar or copd or cancer_previo:
         st.markdown("### ⚠️ Se detectaron factores de riesgo adicionales:")
         if biomasa:
