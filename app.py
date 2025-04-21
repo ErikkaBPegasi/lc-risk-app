@@ -7,26 +7,28 @@ st.markdown("Esta herramienta está basada en criterios del consenso latinoameri
 
 # Sección: Datos personales
 st.header("1. Datos personales")
-dob = st.date_input("Fecha de nacimiento", min_value=datetime(1900, 1, 1), max_value=datetime.today())
+dob = st.date_input("Fecha de nacimiento", value=None, min_value=datetime(1900, 1, 1), max_value=datetime.today())
 sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
 
 # Peso y talla
 altura_str = st.text_input("¿Cuál es tu talla (cm)?", placeholder="Ejemplo: 165")
 peso_str = st.text_input("¿Cuál es tu peso actual (kg)?", placeholder="Ejemplo: 70")
 
-# Calcular edad e IMC
+# Calcular edad
 edad = None
-imc = None
 if dob:
     hoy = datetime.today()
     edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
+    st.markdown(f"**Edad:** {edad} años")
 
+# Calcular IMC
+imc = None
 if altura_str and peso_str:
     try:
         altura_m = float(altura_str) / 100
         peso = float(peso_str)
         imc = round(peso / (altura_m ** 2), 1)
-        st.markdown(f"**Edad:** {edad} años | **IMC:** {imc}")
+        st.markdown(f"**IMC:** {imc}")
         if imc >= 25:
             st.markdown(f"**Nota:** IMC elevado ({imc}): factor de riesgo adicional (no afecta la recomendación actual). El IMC saludable recomendado está entre 18.5 y 24.9.")
     except:
@@ -67,6 +69,9 @@ if edad and 50 <= edad <= 74:
 # Si no es elegible pero tiene factores
 if not eligible:
     st.warning("**No cumples con los criterios tradicionales de tamizaje. Consulta con tu médico.**")
+    if edad and edad < 50 and pack_years >= 30:
+        st.info("Tienes un historial de tabaquismo significativo, pero no cumples con el criterio de edad. Consulta con tu médico, especialmente si presentas síntomas o factores adicionales de riesgo.")
+
     if biomasa or ocupacional or familiar or copd or cancer_previo:
         st.markdown("### ⚠️ Se detectaron factores de riesgo adicionales:")
         if biomasa:
