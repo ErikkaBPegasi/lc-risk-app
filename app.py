@@ -36,11 +36,11 @@ if altura_str and peso_str:
 
 # Sección: Tabaquismo
 st.header("2. Historial de consumo de tabaco")
-fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"])
-fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"])
+fuma_actualmente = st.radio("¿Fumas actualmente?", ["Selecciona una opción", "Sí", "No"], index=0)
+fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Selecciona una opción", "Sí", "No"], index=0)
 
 pack_years = 0
-if fuma_actualmente == "Sí" or fumador_anterior == "Sí":
+if fuma_actualmente in ["Sí"] or fumador_anterior in ["Sí"]:
     pack_years = st.number_input("¿Cuántos paquetes por año has consumido? (1 paquete = 20 cigarrillos/día por 1 año)", min_value=0, value=0)
 
 anios_cessacion = 0
@@ -93,7 +93,7 @@ if not eligible:
         if cancer_previo:
             st.markdown("- Antecedente de otro tipo de cáncer")
             st.info("Antecedentes personales de cáncer pueden ser relevantes al evaluar tu riesgo global. Considera hablar con tu médico para una evaluación individualizada.")
-        st.markdown("**🔎 Nota para profesionales de salud:** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")
+        st.markdown("**🔎 Nota para profesionales de salud:** Los factores seleccionados arriba fueron identificados como relevantes para evaluación individualizada en consenso clínico, aunque no forman parte de los criterios estándar de tamizaje. Su presencia puede justificar discusión médica caso por caso.")
         st.info("Actualmente no existen guías validadas para tamizaje con estos factores. Te recomendamos consultar con tu médico para una evaluación más detallada.")
     else:
         st.markdown("No se identificaron factores adicionales de riesgo.")
