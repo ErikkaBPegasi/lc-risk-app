@@ -39,8 +39,8 @@ st.header("2. Historial de consumo de tabaco")
 fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"], index=None)
 fumador_anterior = ""
 if fuma_actualmente == "Sí":
+    st.markdown("🛈 Como fumas actualmente, se considera que también has fumado anteriormente.")
     fumador_anterior = "Sí"
-    st.markdown("ℹ️ Como fumas actualmente, se considera que también has fumado anteriormente.")
 else:
     fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], index=None)
 
@@ -76,19 +76,21 @@ eligible = False
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
     if pack_years < 15:
         st.warning("No cumples con el mínimo de 15 paquetes/año de carga tabáquica requerido por los programas de tamizaje.")
-    elif 55 <= edad <= 75:
-        if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 30:
+    elif 50 <= edad <= 75:
+        if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 15:
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
                 eligible = True
-                st.success("**Cumples con los criterios tradicionales para tamizaje con Tomografía de Baja Dosis (LDCT)**")
+                st.success("**Cumples con los criterios mínimos de inclusión establecidos por las guías RESPIRAR LATAM.**")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
-        elif (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and 20 <= pack_years < 30:
-            st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, podrías ser elegible para tamizaje según recomendaciones ampliadas. Considera conversarlo con tu médico.")
+
+# Recomendación de cesación
+if fuma_actualmente == "Sí":
+    st.markdown("🛑 **Recomendación:** Además del tamizaje, considera participar en un programa de cesación de tabaco. Dejar de fumar es la intervención más efectiva para reducir el riesgo de cáncer de pulmón y otras enfermedades respiratorias.")
 
 # Evaluación extendida o factores adicionales
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
     if not eligible and pack_years >= 15:
-        st.warning("**No cumples con los criterios tradicionales de tamizaje. Consulta con tu médico.**")
+        st.warning("**No cumples con todos los criterios de programas estandarizados. Consulta con tu médico.**")
 
         if biomasa or ocupacional or familiar or copd or cancer_previo:
             st.markdown("### ⚠️ Clasificación de riesgo")
