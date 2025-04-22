@@ -40,7 +40,7 @@ fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"], index=None)
 fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], index=None)
 
 pack_years = 0
-if fuma_actualmente == "Sí" or fumador_anterior == "Sí":
+if fumador_anterior == "Sí":
     pack_years = st.number_input("¿Cuántos paquetes por año has consumido? (1 paquete = 20 cigarrillos/día por 1 año)", min_value=0, value=0)
 
 anios_cessacion = 0
@@ -55,8 +55,15 @@ familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer
 copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
 cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
 
-# Sección: Síntomas
-sintomas = st.checkbox("¿Tienes sangrado por recto, cambios en el ritmo intestinal o pérdida de peso sin explicación?", help="Estos síntomas no forman parte del tamizaje de pulmón pero pueden ser indicativos de otras patologías.")
+
+# Sección: Síntomas de alerta
+sintomas_alerta = st.checkbox(
+    "¿Tienes alguno de estos síntomas: tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser?",
+    help="Si presentas síntomas compatibles con cáncer de pulmón, se recomienda realizar estudios diagnósticos, no tamizaje."
+)
+
+if sintomas_alerta:
+    st.warning("Presentas síntomas compatibles con cáncer de pulmón. Se recomienda consultar de inmediato a un profesional de salud para estudios diagnósticos.")
 
 # Evaluación de elegibilidad para LDCT
 st.header("Resultado de la evaluación")
