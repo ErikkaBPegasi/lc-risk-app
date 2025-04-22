@@ -37,7 +37,12 @@ if altura_str and peso_str:
 # Sección: Tabaquismo
 st.header("2. Historial de consumo de tabaco")
 fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"], index=None)
-fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], index=None)
+fumador_anterior = ""
+if fuma_actualmente == "Sí":
+    fumador_anterior = "Sí"
+    st.markdown("ℹ️ Como fumas actualmente, se considera que también has fumado anteriormente.")
+else:
+    fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], index=None)
 
 pack_years = 0
 if fuma_actualmente == "Sí" or fumador_anterior == "Sí":
