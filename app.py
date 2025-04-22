@@ -59,7 +59,7 @@ biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña,
 ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Sustancias como el asbesto o la sílice son carcinógenos conocidos para pulmón.")
 familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón. Este factor no forma parte de los criterios tradicionales pero ha sido considerado en modelos como PLCOm2012 como marcador de riesgo adicional.")
 copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
-cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
+cancer_previo = st.checkbox("¿Estás actualmente en seguimiento por otro tipo de cáncer o tuviste diagnóstico en los últimos 5 años?", help="Este factor puede influir en la decisión de realizar tamizaje. Consulta con tu equipo médico.")
 
 # Sección: Síntomas de alerta
 sintomas_alerta = st.checkbox(
@@ -82,7 +82,10 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
                 eligible = True
                 st.success("**Cumples con los criterios mínimos de inclusión establecidos por el programa de tamizaje.**")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
-                st.markdown("🔎 **Resumen:** Edad entre 51 y 75 años, carga tabáquica ≥ 15 paquetes/año y cesación hace menos de 15 años (si aplica).")
+                st.markdown("🔎 **Resumen:** Cumples con los criterios de edad (>50 años), carga tabáquica (≥15 paquetes/año) y ventana de cesación (<15 años), sin contraindicaciones relevantes. Recomendación: Realizar una tomografía de baja dosis una vez al año.").")
+    elif edad > 80:
+        st.warning("**La edad recomendada para programas de tamizaje es hasta 75-80 años.**")
+        st.info("🔎 **Nota:** La edad indicada invita a una individualización de tu caso. Consulta con tu médico para una evaluación personalizada.")
     elif edad > 75:
         st.warning("**No cumples con todos los criterios de programas estandarizados. Consulta con tu médico.**")
         st.info("🔎 **Nota:** Aunque tienes más de 75 años, podrías ser considerado para tamizaje si tu estado funcional es bueno, no tienes comorbilidades importantes y tu expectativa de vida es adecuada. Consulta con tu equipo médico para una evaluación personalizada.")
