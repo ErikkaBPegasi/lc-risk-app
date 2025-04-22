@@ -50,16 +50,16 @@ if fuma_actualmente == "No" and fumador_anterior == "Sí":
 # Sección: Exposición y comorbilidades
 st.header("3. Exposición y condiciones clínicas")
 comorbilidad_severa = st.checkbox("¿Tienes alguna condición médica grave que pueda afectar tu calidad de vida o dificultar la realización de estudios por imágenes?", help="En algunos casos, estas condiciones pueden impedir que el tamizaje sea útil o seguro. Esto debe evaluarse junto con tu equipo de salud.")
-biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de leña, carbón u otras biomasas en casa ha sido relacionado con mayor riesgo de enfermedades respiratorias crónicas y cáncer de pulmón.")
-ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="La exposición a sustancias como asbesto o sílice en el trabajo puede aumentar el riesgo de cáncer de pulmón.")
-familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as o hijos/as con diagnóstico de cáncer de pulmón. Aunque no es parte de los criterios tradicionales, ha sido considerado como factor en modelos de predicción como PLCOm2012.")
-copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas enfermedades respiratorias como EPOC o enfisema aumentan el riesgo de desarrollar cáncer de pulmón.")
-cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Si has tenido algún otro tipo de cáncer, podría influir en tu riesgo general. Es importante mencionarlo durante tu consulta médica.")
+biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de biomasa ha sido asociado a riesgo incrementado de enfermedades pulmonares crónicas y cáncer.")
+ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Sustancias como el asbesto o la sílice son carcinógenos conocidos para pulmón.")
+familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón. Este factor no forma parte de los criterios tradicionales pero ha sido considerado en modelos como PLCOm2012 como marcador de riesgo adicional.")
+copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
+cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
 
 # Sección: Síntomas de alerta
 sintomas_alerta = st.checkbox(
     "¿Tienes alguno de estos síntomas: tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser?",
-    help="Tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser pueden ser signos de alerta. En estos casos se recomienda realizar estudios diagnósticos, no tamizaje."
+    help="Si presentas síntomas compatibles con cáncer de pulmón, se recomienda realizar estudios diagnósticos, no tamizaje."
 )
 
 if sintomas_alerta:
@@ -69,21 +69,20 @@ if sintomas_alerta:
 st.header("Resultado de la evaluación")
 eligible = False
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
-    if 55 <= edad <= 75:
+    if pack_years < 15:
+        st.warning("No cumples con el mínimo de 15 paquetes/año de carga tabáquica requerido por los programas de tamizaje.")
+    elif 55 <= edad <= 75:
         if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 30:
-            mensaje_adicional = ""
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
                 eligible = True
-                st.success("**Cumples con los criterios para tamizaje con Tomografía de Baja Dosis (LDCT)**")
-                if 20 <= pack_years < 30:
-                    st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, podrías ser elegible para tamizaje. Considera conversarlo con tu médico.")
+                st.success("**Cumples con los criterios tradicionales para tamizaje con Tomografía de Baja Dosis (LDCT)**")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
+        elif (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and 20 <= pack_years < 30:
+            st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, podrías ser elegible para tamizaje según recomendaciones ampliadas. Considera conversarlo con tu médico.")
 
-# Si no es elegible pero tiene factores
+# Evaluación extendida o factores adicionales
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
-    if not eligible:
-        if 50 <= edad <= 74 and (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and 20 <= pack_years < 30:
-            st.info("Como tienes un historial de tabaquismo de 20–29 paquetes/año, podrías ser elegible para tamizaje. Considera conversarlo con tu médico.")
+    if not eligible and pack_years >= 15:
         st.warning("**No cumples con los criterios tradicionales de tamizaje. Consulta con tu médico.**")
 
         if biomasa or ocupacional or familiar or copd or cancer_previo:
@@ -92,33 +91,26 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
             st.markdown("### 🔎 Factores de riesgo identificados:")
             if biomasa:
                 st.markdown("- Exposición a biomasa (leña, carbón, etc.)")
-                st.info("Has reportado exposición frecuente a biomasa. Consulta con tu médico para evaluar si se justifica tamizaje individualizado.")
             if ocupacional:
                 st.markdown("- Exposición ocupacional a sustancias cancerígenas")
-                st.info("Tu historial laboral incluye exposición a agentes cancerígenos conocidos. Esto puede justificar estudios por imágenes.")
             if familiar:
                 st.markdown("- Antecedente familiar de cáncer de pulmón")
-                st.info("Tener familiares con diagnóstico de cáncer de pulmón puede aumentar tu riesgo. Recomendamos discutirlo con tu médico.")
             if copd:
                 st.markdown("- Enfermedad pulmonar crónica (EPOC, enfisema, etc.)")
-                st.info("Estas enfermedades aumentan el riesgo de cáncer de pulmón. Podrías requerir controles más frecuentes.")
             if cancer_previo:
                 st.markdown("- Antecedente de otro tipo de cáncer")
-                st.info("El haber tenido otros tipos de cáncer puede ser relevante en la evaluación de tu riesgo global.")
             st.markdown("### ✅ Próximos pasos sugeridos")
             st.info("Comparte esta evaluación con tu médico o centro de salud. Podrán ayudarte a definir si es necesario realizar una tomografía u otros estudios.")
-        else:
+        elif pack_years >= 15:
             st.markdown("No se identificaron factores adicionales de riesgo.")
 
-# Fuente
 if comorbilidad_severa:
     st.warning("Presentas una condición médica grave que podría limitar los beneficios del tamizaje. Según las recomendaciones RESPIRAR, estos casos deben ser evaluados cuidadosamente por tu equipo médico.")
 
+# Fuente y descargo
 st.caption("📚 Fuente: Recomendaciones RESPIRAR LATAM 2024. Lamot SB et al. Revista RESPIRAR, 2024; 16(1):39.")
 
-# Aviso final
-disclaimer = """
+st.markdown("""
 ---
 **Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
-"""
-st.markdown(disclaimer)
+""")
