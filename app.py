@@ -115,7 +115,7 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
 if comorbilidad_severa:
     st.warning("Presentas una condición médica grave que podría limitar los beneficios del tamizaje. Según las recomendaciones RESPIRAR, estos casos deben ser evaluados cuidadosamente por tu equipo médico.")
 
-st.caption("📚 Fuente: Recomendaciones RESPIRAR LATAM 2024. Lamot SB et al. Revista RESPIRAR, 2024; 16(1):39."):39.")
+st.caption("📚 Fuente: Recomendaciones RESPIRAR LATAM 2024. Lamot SB et al. Revista RESPIRAR, 2024; 16(1):39.")
 
 # Aviso final
 disclaimer = """
