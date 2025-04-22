@@ -49,6 +49,7 @@ if fuma_actualmente == "No" and fumador_anterior == "Sí":
 
 # Sección: Exposición y comorbilidades
 st.header("3. Exposición y condiciones clínicas")
+comorbilidad_severa = st.checkbox("¿Tienes alguna condición médica grave que pueda afectar tu calidad de vida o dificultar la realización de estudios por imágenes?", help="En algunos casos, estas condiciones pueden impedir que el tamizaje sea útil o seguro. Esto debe evaluarse junto con tu equipo de salud.")
 biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de biomasa ha sido asociado a riesgo incrementado de enfermedades pulmonares crónicas y cáncer.")
 ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Sustancias como el asbesto o la sílice son carcinógenos conocidos para pulmón.")
 familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón.")
@@ -111,7 +112,10 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
             st.markdown("No se identificaron factores adicionales de riesgo.")
 
 # Fuente
-st.caption("📚 Fuente: Recomendaciones RESPIRAR LATAM 2024. Lamot SB et al. Revista RESPIRAR, 2024; 16(1):39.")
+if comorbilidad_severa:
+    st.warning("Presentas una condición médica grave que podría limitar los beneficios del tamizaje. Según las recomendaciones RESPIRAR, estos casos deben ser evaluados cuidadosamente por tu equipo médico.")
+
+st.caption("📚 Fuente: Recomendaciones RESPIRAR LATAM 2024. Lamot SB et al. Revista RESPIRAR, 2024; 16(1):39."):39.")
 
 # Aviso final
 disclaimer = """
