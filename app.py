@@ -8,11 +8,10 @@ st.markdown("Esta herramienta está basada en criterios del consenso latinoameri
 # Sección: Datos personales
 st.header("1. Datos personales")
 dob = st.date_input("Fecha de nacimiento", value=None, min_value=datetime(1900, 1, 1), max_value=datetime.today())
+sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
 
 # Mostrar edad debajo de DOB
     st.markdown(f"**Edad:** {edad} años")
-
-sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
 
 # Peso y talla
 altura_str = st.text_input("¿Cuál es tu talla (cm)?", placeholder="Ejemplo: 165")
@@ -23,6 +22,7 @@ edad = None
 if dob:
     hoy = datetime.today()
     edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
+
 
 # Calcular IMC
 imc = None
