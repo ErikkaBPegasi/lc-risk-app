@@ -1,4 +1,4 @@
-import streamlit as st
+""import streamlit as st
 from datetime import datetime
 
 # Título
@@ -40,7 +40,7 @@ fuma_actualmente = st.radio("¿Fumas actualmente?", ["Sí", "No"], index=None)
 fumador_anterior = st.radio("¿Has fumado anteriormente al menos un cigarrillo al día durante un año o más?", ["Sí", "No"], index=None)
 
 pack_years = 0
-if fumador_anterior == "Sí":
+if fuma_actualmente == "Sí" or fumador_anterior == "Sí":
     pack_years = st.number_input("¿Cuántos paquetes por año has consumido? (1 paquete = 20 cigarrillos/día por 1 año)", min_value=0, value=0)
 
 anios_cessacion = 0
