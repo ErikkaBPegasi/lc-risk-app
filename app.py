@@ -1,4 +1,4 @@
-import streamlit as st
+""import streamlit as st
 from datetime import datetime
 
 # Título
@@ -76,12 +76,13 @@ eligible = False
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
     if pack_years < 15:
         st.warning("No cumples con el mínimo de 15 paquetes/año de carga tabáquica requerido por los programas de tamizaje.")
-    elif 50 <= edad <= 75:
+    elif edad > 50 and edad <= 75:
         if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 15:
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
                 eligible = True
                 st.success("**Cumples con los criterios mínimos de inclusión establecidos por las guías RESPIRAR LATAM.**")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
+                st.markdown("🔎 **Resumen:** Edad entre 51 y 75 años, carga tabáquica ≥ 15 paquetes/año y cesación hace menos de 15 años (si aplica).")
 
 # Recomendación de cesación
 if fuma_actualmente == "Sí":
