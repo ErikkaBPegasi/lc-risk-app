@@ -1,4 +1,4 @@
-import streamlit as st
+""import streamlit as st
 from datetime import datetime
 
 # Título
@@ -19,6 +19,8 @@ edad = None
 if dob:
     hoy = datetime.today()
     edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
+
+# Mostrar edad debajo de DOB
     st.markdown(f"**Edad:** {edad} años")
 
 # Calcular IMC
@@ -56,7 +58,6 @@ familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer
 copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
 cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
 
-
 # Sección: Síntomas de alerta
 sintomas_alerta = st.checkbox(
     "¿Tienes alguno de estos síntomas: tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser?",
@@ -70,7 +71,7 @@ if sintomas_alerta:
 st.header("Resultado de la evaluación")
 eligible = False
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
-    if 50 <= edad <= 74:
+    if 55 <= edad <= 75:
         if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 30:
             mensaje_adicional = ""
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
