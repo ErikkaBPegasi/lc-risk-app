@@ -1,4 +1,4 @@
-""import streamlit as st
+import streamlit as st
 from datetime import datetime
 
 # Título
@@ -81,8 +81,8 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
                 eligible = True
                 st.success("**Cumples con los criterios mínimos de inclusión establecidos por el programa de tamizaje.**")
+                st.markdown("🔎 **Resumen:** Cumples con los criterios de edad (>50 años), carga tabáquica (≥15 paquetes/año) y ventana de cesación (<15 años), sin contraindicaciones relevantes.")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
-                st.markdown("🔎 **Resumen:** Cumples con los criterios de edad (>50 años), carga tabáquica (≥15 paquetes/año) y ventana de cesación (<15 años), sin contraindicaciones relevantes. Recomendación: Realizar una tomografía de baja dosis una vez al año.").")
     elif edad > 80:
         st.warning("**La edad recomendada para programas de tamizaje es hasta 75-80 años.**")
         st.info("🔎 **Nota:** La edad indicada invita a una individualización de tu caso. Consulta con tu médico para una evaluación personalizada.")
