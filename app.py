@@ -1,4 +1,4 @@
-import streamlit as st
+""import streamlit as st
 from datetime import datetime
 
 # Título
@@ -80,9 +80,12 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
         if (fuma_actualmente == "Sí" or fumador_anterior == "Sí") and pack_years >= 15:
             if fuma_actualmente == "Sí" or anios_cessacion <= 15:
                 eligible = True
-                st.success("**Cumples con los criterios mínimos de inclusión establecidos por las guías RESPIRAR LATAM.**")
+                st.success("**Cumples con los criterios mínimos de inclusión establecidos por el programa de tamizaje.**")
                 st.markdown("Recomendación: Realizar una tomografía de baja dosis una vez al año.")
                 st.markdown("🔎 **Resumen:** Edad entre 51 y 75 años, carga tabáquica ≥ 15 paquetes/año y cesación hace menos de 15 años (si aplica).")
+    elif edad > 75:
+        st.warning("**No cumples con todos los criterios de programas estandarizados. Consulta con tu médico.**")
+        st.info("🔎 **Nota:** Aunque tienes más de 75 años, podrías ser considerado para tamizaje si tu estado funcional es bueno, no tienes comorbilidades importantes y tu expectativa de vida es adecuada. Consulta con tu equipo médico para una evaluación personalizada.")
 
 # Recomendación de cesación
 if fuma_actualmente == "Sí":
@@ -90,12 +93,12 @@ if fuma_actualmente == "Sí":
 
 # Evaluación extendida o factores adicionales
 if edad is not None and fuma_actualmente is not None and fumador_anterior is not None:
-    if not eligible and pack_years >= 15:
+    if not eligible and (pack_years >= 15 or biomasa or ocupacional or familiar or copd or cancer_previo):
         st.warning("**No cumples con todos los criterios de programas estandarizados. Consulta con tu médico.**")
 
         if biomasa or ocupacional or familiar or copd or cancer_previo:
-            st.markdown("### ⚠️ Clasificación de riesgo")
-            st.info("Presentas un riesgo elevado por mecanismos diferentes al tabaquismo. Estos factores pueden justificar una evaluación individualizada para considerar tamizaje con LDCT.")
+            st.markdown("### ⚠️ Riesgo elevado por mecanismos diferentes")
+            st.info("Presentas un riesgo elevado debido a factores distintos al tabaquismo. Estos pueden justificar una evaluación individualizada para considerar tamizaje con LDCT.")
             st.markdown("### 🔎 Factores de riesgo identificados:")
             if biomasa:
                 st.markdown("- Exposición a biomasa (leña, carbón, etc.)")
@@ -109,7 +112,7 @@ if edad is not None and fuma_actualmente is not None and fumador_anterior is not
                 st.markdown("- Antecedente de otro tipo de cáncer")
             st.markdown("### ✅ Próximos pasos sugeridos")
             st.info("Comparte esta evaluación con tu médico o centro de salud. Podrán ayudarte a definir si es necesario realizar una tomografía u otros estudios.")
-        elif pack_years >= 15:
+        else:
             st.markdown("No se identificaron factores adicionales de riesgo.")
 
 if comorbilidad_severa:
