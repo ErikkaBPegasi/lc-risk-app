@@ -1,4 +1,4 @@
-""import streamlit as st
+import streamlit as st
 from datetime import datetime
 
 # Título
@@ -10,19 +10,16 @@ st.header("1. Datos personales")
 dob = st.date_input("Fecha de nacimiento", value=None, min_value=datetime(1900, 1, 1), max_value=datetime.today())
 sexo = st.radio("Sexo biológico asignado al nacer (dato estadístico, no afecta la recomendación):", ["Femenino", "Masculino"])
 
-# Mostrar edad debajo de DOB
+# Calcular edad
+today = datetime.today()
+edad = None
+if dob:
+    edad = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     st.markdown(f"**Edad:** {edad} años")
 
 # Peso y talla
 altura_str = st.text_input("¿Cuál es tu talla (cm)?", placeholder="Ejemplo: 165")
 peso_str = st.text_input("¿Cuál es tu peso actual (kg)?", placeholder="Ejemplo: 70")
-
-# Calcular edad
-edad = None
-if dob:
-    hoy = datetime.today()
-    edad = hoy.year - dob.year - ((hoy.month, hoy.day) < (dob.month, dob.day))
-
 
 # Calcular IMC
 imc = None
@@ -55,7 +52,7 @@ st.header("3. Exposición y condiciones clínicas")
 comorbilidad_severa = st.checkbox("¿Tienes alguna condición médica grave que pueda afectar tu calidad de vida o dificultar la realización de estudios por imágenes?", help="En algunos casos, estas condiciones pueden impedir que el tamizaje sea útil o seguro. Esto debe evaluarse junto con tu equipo de salud.")
 biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de biomasa ha sido asociado a riesgo incrementado de enfermedades pulmonares crónicas y cáncer.")
 ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Sustancias como el asbesto o la sílice son carcinógenos conocidos para pulmón.")
-familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón.")
+familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help=""Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón. "Este factor no forma parte de los criterios tradicionales pero ha sido considerado en modelos como PLCOm2012 como marcador de riesgo adicional.")
 copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
 cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
 
