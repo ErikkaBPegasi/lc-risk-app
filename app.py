@@ -50,16 +50,16 @@ if fuma_actualmente == "No" and fumador_anterior == "Sí":
 # Sección: Exposición y comorbilidades
 st.header("3. Exposición y condiciones clínicas")
 comorbilidad_severa = st.checkbox("¿Tienes alguna condición médica grave que pueda afectar tu calidad de vida o dificultar la realización de estudios por imágenes?", help="En algunos casos, estas condiciones pueden impedir que el tamizaje sea útil o seguro. Esto debe evaluarse junto con tu equipo de salud.")
-biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de biomasa ha sido asociado a riesgo incrementado de enfermedades pulmonares crónicas y cáncer.")
-ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="Sustancias como el asbesto o la sílice son carcinógenos conocidos para pulmón.")
-familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help=""Incluye padre, madre, hermanos/as, o hijos/as con diagnóstico de cáncer de pulmón. "Este factor no forma parte de los criterios tradicionales pero ha sido considerado en modelos como PLCOm2012 como marcador de riesgo adicional.")
-copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas condiciones respiratorias aumentan el riesgo de desarrollar cáncer pulmonar.")
-cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Algunos cánceres previos pueden estar relacionados con un mayor riesgo de cáncer de pulmón.")
+biomasa = st.checkbox("¿Has estado expuesto(a) con frecuencia al humo de leña, carbón u otra biomasa en tu casa?", help="El humo de leña, carbón u otras biomasas en casa ha sido relacionado con mayor riesgo de enfermedades respiratorias crónicas y cáncer de pulmón.")
+ocupacional = st.checkbox("¿Has trabajado con exposición a sustancias como asbesto, sílice u otros agentes cancerígenos?", help="La exposición a sustancias como asbesto o sílice en el trabajo puede aumentar el riesgo de cáncer de pulmón.")
+familiar = st.checkbox("¿Tienes familiares cercanos con diagnóstico de cáncer de pulmón?", help="Incluye padre, madre, hermanos/as o hijos/as con diagnóstico de cáncer de pulmón. Aunque no es parte de los criterios tradicionales, ha sido considerado como factor en modelos de predicción como PLCOm2012.")
+copd = st.checkbox("¿Tienes diagnóstico de EPOC, enfisema u otra enfermedad pulmonar crónica?", help="Estas enfermedades respiratorias como EPOC o enfisema aumentan el riesgo de desarrollar cáncer de pulmón.")
+cancer_previo = st.checkbox("¿Has tenido algún otro tipo de cáncer en el pasado?", help="Si has tenido algún otro tipo de cáncer, podría influir en tu riesgo general. Es importante mencionarlo durante tu consulta médica.")
 
 # Sección: Síntomas de alerta
 sintomas_alerta = st.checkbox(
     "¿Tienes alguno de estos síntomas: tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser?",
-    help="Si presentas síntomas compatibles con cáncer de pulmón, se recomienda realizar estudios diagnósticos, no tamizaje."
+    help="Tos persistente, dolor en el pecho, pérdida de peso sin explicación o sangre al toser pueden ser signos de alerta. En estos casos se recomienda realizar estudios diagnósticos, no tamizaje."
 )
 
 if sintomas_alerta:
