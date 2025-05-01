@@ -87,11 +87,9 @@ if not eligible:
         st.markdown("No se identificaron factores adicionales de riesgo.")
 
 # Aviso final
-disclaimer = ""
----
-**Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
-""
+disclaimer = """---
+**Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada.  
+Las decisiones deben ser tomadas junto con un profesional de salud.
+"""
 st.markdown(disclaimer)
 
-**Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
-"")
