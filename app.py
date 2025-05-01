@@ -90,7 +90,7 @@ if not eligible:
 disclaimer = ""
 ---
 **Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
-"""
+""
 st.markdown(disclaimer)
 
 **Aviso:** Esta herramienta tiene fines educativos. No reemplaza la consulta médica ni constituye una recomendación personalizada. Las decisiones deben ser tomadas junto con un profesional de salud.
